@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    usart.h
+  * @file    tim.h
   * @brief   This file contains all the function prototypes for
-  *          the usart.c file
+  *          the tim.c file
   ******************************************************************************
   * @attention
   *
@@ -17,8 +17,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USART_H__
-#define __USART_H__
+#ifndef __TIM_H__
+#define __TIM_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,20 +28,18 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-#include "stdio.h"
-#include "can.h"
+
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart1;
+extern TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN Private defines */
-extern uint8_t u_buf[256];
-extern uint8_t Buffer;
 
-#define UART1_printf(...) HAL_UART_Transmit(&huart1, (uint8_t *)u_buf, sprintf((char*)u_buf,__VA_ARGS__), 0xffff)
 /* USER CODE END Private defines */
 
-void MX_USART1_UART_Init(void);
+void MX_TIM1_Init(void);
+
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -51,6 +49,6 @@ void MX_USART1_UART_Init(void);
 }
 #endif
 
-#endif /* __USART_H__ */
+#endif /* __TIM_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

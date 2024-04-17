@@ -28,7 +28,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "usart.h"
 /* USER CODE END Includes */
 
 extern CAN_HandleTypeDef hcan;
@@ -40,7 +40,8 @@ extern CAN_HandleTypeDef hcan;
 void MX_CAN_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void CAN_Config(void);
+void CAN_senddata(uint8_t* msg,uint8_t len);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
