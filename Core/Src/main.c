@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "can.h"
 #include "tim.h"
 #include "usart.h"
@@ -91,6 +92,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_CAN_Init();
   MX_TIM1_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 	HAL_UART_Receive_IT(&huart1,&Buffer,1);
 	CAN_Config();
@@ -101,8 +103,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		ADC_Update();
+		UART1_printf("ADC read value : %d \n",ADC_value);
+		UART1_printf("change voltage value : %.4f \n",volt_value);
+		UART1_printf("sensor angle : %.4f \n",sensor_angle);
+		UART1_printf("corrected sensor angle : %.4f \n",sensor_angle_corrected);
+		UART1_printf("joint angle : %.4f \n\n",joint_angle);
+		HAL_Delay(1000);
     /* USER CODE END WHILE */
-
+		
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -116,6 +125,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -141,6 +151,12 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV6;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
