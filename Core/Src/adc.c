@@ -27,7 +27,7 @@ float sensor_angle;
 float sensor_angle_corrected;
 float joint_angle;
 
-const float correction_value = 82.42f;
+const float correction_value = 82.79f;
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -138,7 +138,7 @@ void ADC_Update()
 {
 	ADC_value = ADC_Get();
 	volt_value = ADC_value*3.3f/4096;
-	sensor_angle = ADC_value*354.0f/4096;
+	sensor_angle = ADC_value*360.0f/4096;
 	sensor_angle_corrected = sensor_angle - correction_value;
 	joint_angle = sensor_angle_corrected/1.6f;
 }

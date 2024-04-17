@@ -96,13 +96,22 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_UART_Receive_IT(&huart1,&Buffer,1);
 	CAN_Config();
+	
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
 	UART1_printf("Initialize finished.\n");
+	
+	__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 500);
+	__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 0);
+	UART1_printf("Motion finished.\n");
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		
 		ADC_Update();
 		UART1_printf("ADC read value : %d \n",ADC_value);
 		UART1_printf("change voltage value : %.4f \n",volt_value);
@@ -110,6 +119,7 @@ int main(void)
 		UART1_printf("corrected sensor angle : %.4f \n",sensor_angle_corrected);
 		UART1_printf("joint angle : %.4f \n\n",joint_angle);
 		HAL_Delay(1000);
+		
     /* USER CODE END WHILE */
 		
     /* USER CODE BEGIN 3 */
